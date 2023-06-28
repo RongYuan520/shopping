@@ -5,15 +5,15 @@
       <div slot="label" >首页</div>
     </TabBarItem>
     <TabBarItem type="category"  >
-      <img slot="img" src="~assets/img/tabbar/home.svg"/>
+      <img slot="img" src="~assets/img/tabbar/type.svg"/>
       <div slot="label" >分类</div>
     </TabBarItem>
     <TabBarItem type="cart"  >
-      <img slot="img" src="~assets/img/tabbar/home.svg"/>
+      <img slot="img" src="~assets/img/tabbar/goods.svg"/>
       <div slot="label" >购物车</div>
     </TabBarItem>
     <TabBarItem type="profile"  >
-      <img slot="img" src="~assets/img/tabbar/home.svg"/>
+      <img slot="img" src="~assets/img/tabbar/mine.svg"/>
       <div slot="label">我的</div>
     </TabBarItem>
     </div>
