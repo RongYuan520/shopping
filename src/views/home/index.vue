@@ -1,21 +1,30 @@
 <template>
-  <div>
+  <div class="home">
     <nav-bar class="home-nav">
       <div slot="pre"></div>
       <div slot="content">首页</div>
       <div slot="after"></div>
     </nav-bar>
-    <recommand-vue :recommands="recommend"></recommand-vue>
-    <feature></feature>
-    <tab-controll :types="HOMETYPES" class="tab-controll" @changeTab="changeTab"></tab-controll>
-    <goods-list :goods="goods[type]['list']"></goods-list>
+    <scroll-vue rootclass="wrapper" ref="scrollWrapper" 
+    :probeType="3" 
+    @scroll="contentScroll"
+    :pullUpLoad="true"
+    @pullingUp="loadMore">
+      <recommand-vue :recommands="recommend"></recommand-vue>
+      <feature></feature>
+      <tab-controll :types="HOMETYPES" class="tab-controll" @changeTab="changeTab"></tab-controll>
+      <back-top @click.native="backClick" v-show="showBackTop"></back-top>
+      <goods-list :goods="goods[type]['list']"></goods-list>
+    </scroll-vue>
   </div>
 </template>
 <script>
 import NavBar from 'components/common/navbar/NavBar.vue';
+import ScrollVue from 'components/common/scroll/Scroll.vue'
 
 import TabControll from 'components/content/TabControll.vue';
 import GoodsList from 'components/content/goods/GoodsList.vue';
+import BackTop from 'components/content/backTop/index'
 
 import RecommandVue from './components/ReCommand.vue'
 import Feature from './components/Feature.vue';
@@ -31,7 +40,9 @@ export default {
     RecommandVue,
     Feature,
     TabControll,
-    GoodsList
+    GoodsList,
+    BackTop,
+    ScrollVue
   },
   data () {
     return {
@@ -52,12 +63,19 @@ export default {
           list: []
         }
       },
-      type: 'pop'
+      type: 'pop',
+      showBackTop: false
     }
   },
   created () {
     this.getHomeList()
-    this.getHomeGoods(this.type, 1)
+    this.getHomeGoods(this.type)
+  },
+  mounted () {
+    this.$bus.$on('itemImgLoad', () => {
+      console.log('itemImgLoad')
+      this.refresh()
+    })
   },
   methods: {
     getHomeList() {
@@ -81,8 +99,8 @@ export default {
         if (res.success) {
           const { list = [], page = 1} = res.data
           this.goods[type].list.push(...list) 
-          this.goods[type].page = page + 1
-          console.log('goods', this.goods)
+          this.goods[type].page = page
+          console.log('list', this.goods[type])
         }
        })
        .catch(err => {
@@ -90,9 +108,26 @@ export default {
       })
     },
     changeTab (item) {
-      console.log(item)
       this.type = item
       this.getHomeGoods(item)
+    },
+    backClick () {
+      console.log('home backClick')
+      this.$refs.scrollWrapper.scrollTo(0, 0)
+    },
+    contentScroll (position) {
+      if (position.y < -200) {
+        this.showBackTop = true
+      } else {
+        this.showBackTop = false
+      }
+    },
+    loadMore () {
+      console.log('pullingUp')
+      this.getHomeGoods(this.type)
+    },
+    refresh () {
+      this.$refs.scrollWrapper.refresh()
     }
   }
 }
@@ -105,5 +140,14 @@ export default {
   position: sticky;
   top: 40px;
   z-index: 9999;
+}
+.wrapper {
+  /* height: calc(100%-94px); */
+  overflow: hidden;
+  /* margin-top: 44px; */
+  position: absolute;
+  left: 0;
+  top: 44px;
+  bottom: 50px;
 }
 </style>
