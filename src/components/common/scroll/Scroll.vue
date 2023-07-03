@@ -39,7 +39,6 @@ export default {
       pullUpLoad: this.pullUpLoad
 
     })
-    console.log('scroll obj', this.scroll)
     this.scroll.scrollTo(0, 0)
     // 监听滚动
     this.scroll.on('scroll', position => {

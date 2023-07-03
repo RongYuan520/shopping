@@ -5,14 +5,17 @@
       <div slot="content">首页</div>
       <div slot="after"></div>
     </nav-bar>
+    <tab-controll ref="tabControll" :types="HOMETYPES" class="tab-controll1" 
+      @changeTab="changeTab" v-show="isFixed"></tab-controll>
     <scroll-vue rootclass="wrapper" ref="scrollWrapper" 
-    :probeType="3" 
+    :probeType="3"
     @scroll="contentScroll"
     :pullUpLoad="true"
     @pullingUp="loadMore">
       <recommand-vue :recommands="recommend"></recommand-vue>
-      <feature></feature>
-      <tab-controll :types="HOMETYPES" class="tab-controll" @changeTab="changeTab"></tab-controll>
+      <feature @imgLoaded="imgLoaded"></feature>
+      <tab-controll ref="tabControll" :types="HOMETYPES" class="tab-controll" 
+      @changeTab="changeTab" v-show="!isFixed"></tab-controll>
       <back-top @click.native="backClick" v-show="showBackTop"></back-top>
       <goods-list :goods="goods[type]['list']"></goods-list>
     </scroll-vue>
@@ -32,6 +35,7 @@ import Feature from './components/Feature.vue';
 import { getHomeList,  getHomeGoods } from 'network/home'
 
 import { HOMETYPES } from 'common/const'
+import { debounce } from 'common/utils'
 
 export default {
   name: 'homeVue',
@@ -64,7 +68,8 @@ export default {
         }
       },
       type: 'pop',
-      showBackTop: false
+      showBackTop: false,
+      isFixed: false
     }
   },
   created () {
@@ -72,10 +77,22 @@ export default {
     this.getHomeGoods(this.type)
   },
   mounted () {
+    // 图片加载完的事件监听
+    const refresh = debounce(this.$refs.scrollWrapper.refresh, 1000)
     this.$bus.$on('itemImgLoad', () => {
-      console.log('itemImgLoad')
-      this.refresh()
+      // this.refresh()
+      refresh()
     })
+
+    // 获取TabControld的offsetTop
+    // 确定滑动到多少，有吸顶效果，获取tabControll的offsetTop
+    // mouted中获取不行，因为上边图片异步返回
+    // 依赖上方滑动区域返回的图片高度，图片加载完只返回一次就行了
+
+    
+  },
+  destroyed () {
+    console.log('home destroyed')
   },
   methods: {
     getHomeList() {
@@ -100,7 +117,6 @@ export default {
           const { list = [], page = 1} = res.data
           this.goods[type].list.push(...list) 
           this.goods[type].page = page
-          console.log('list', this.goods[type])
         }
        })
        .catch(err => {
@@ -116,10 +132,12 @@ export default {
       this.$refs.scrollWrapper.scrollTo(0, 0)
     },
     contentScroll (position) {
-      if (position.y < -200) {
+      if (-position.y > 600) {
         this.showBackTop = true
+        this.isFixed = true
       } else {
         this.showBackTop = false
+        this.isFixed = false
       }
     },
     loadMore () {
@@ -128,6 +146,8 @@ export default {
     },
     refresh () {
       this.$refs.scrollWrapper.refresh()
+    },
+    imgLoaded () {
     }
   }
 }
@@ -137,9 +157,13 @@ export default {
   background: var(--color-tint);
 }
 .tab-controll {
-  position: sticky;
-  top: 40px;
-  z-index: 9999;
+  /* position: sticky;
+  top: 40px; */
+}
+.tab-controll1 {
+  position: relative;
+  background: #fff;
+  z-index: 9999999;
 }
 .wrapper {
   /* height: calc(100%-94px); */
