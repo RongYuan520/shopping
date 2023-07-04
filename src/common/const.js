@@ -12,3 +12,6 @@ export const HOMETYPES = [
     label: '精选'
   }
 ]
+export const DETAILTITLES = [
+  '商品', '评论', '参数', '参数2'
+]
