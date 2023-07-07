@@ -26,7 +26,7 @@
             <td class="score" :class="{'score-better': item.isBetter}">{{item.score}}
               <span>{{item.isBetter ? '高': '低'}}</span>
             </td>
-          </tr> 
+          </tr>
         </table>
       </div>
     </div>
@@ -72,6 +72,7 @@ export default {
 .shop-info {
   padding: 25px 8px;
   border-bottom: 1px solid #f2f5f8;
+  background: blue;
 }
 .shop-top {
   line-height: 45px;

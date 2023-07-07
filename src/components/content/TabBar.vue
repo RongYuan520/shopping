@@ -1,5 +1,5 @@
 <template>
-  <div id="tabbar">
+  <div class="tabbar">
     <TabBarItem type="home">
       <img slot="img" src="~assets/img/tabbar/home.svg"/>
       <div slot="label" >首页</div>
@@ -43,7 +43,7 @@ export default {
 }
 </script>
 <style>
-#tabbar {
+.tabbar {
   display: flex;
   text-align: center;
   height: 49px;

@@ -19,6 +19,7 @@
       <back-top @click.native="backClick" v-show="showBackTop"></back-top>
       <goods-list :goods="goods[type]['list']"></goods-list>
     </scroll-vue>
+    <TabBar/>
   </div>
 </template>
 <script>
@@ -28,6 +29,7 @@ import ScrollVue from 'components/common/scroll/Scroll.vue'
 import TabControll from 'components/content/TabControll.vue';
 import GoodsList from 'components/content/goods/GoodsList.vue';
 import BackTop from 'components/content/backTop/index'
+import TabBar from 'components/content/TabBar.vue'
 
 import RecommandVue from './components/ReCommand.vue'
 import Feature from './components/Feature.vue';
@@ -46,7 +48,8 @@ export default {
     TabControll,
     GoodsList,
     BackTop,
-    ScrollVue
+    ScrollVue,
+    TabBar
   },
   mixins: [itemListenerMixin, helloMixin],
   data () {

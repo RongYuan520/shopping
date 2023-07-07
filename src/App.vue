@@ -3,17 +3,14 @@
     <keep-alive exclude="detailVue">
       <router-view/>
     </keep-alive>
-    <TabBar/>
   </div>
 </template>
 
 <script>
-import TabBar from './components/content/TabBar.vue'
 
 export default {
   name: 'App',
   components: {
-    TabBar
   }
 }
 </script>

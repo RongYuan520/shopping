@@ -41,12 +41,16 @@ export default {
       },
       immediate: true
     }
+  },
+  mounted () {
+    console.log('child mounted')
   }
 }
 </script>
 <style scoped>
 .base-info {
   padding: 10px;
+  background: green;
 }
 .info-img {
   display: flex;

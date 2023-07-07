@@ -44,11 +44,13 @@ export default {
     this.scroll.on('scroll', position => {
       this.$emit('scroll', position)
     })
-    // 监听上拉加载更多
-    this.scroll.on('pullingUp', () => {
-      this.$emit('pullingUp')
-      this.finishPullUp()
-    })
+    if (this.pullUpLoad) {
+        // 监听上拉加载更多
+        this.scroll.on('pullingUp', () => {
+          this.$emit('pullingUp')
+          this.finishPullUp()
+        })
+    }
 
   },
   methods: {

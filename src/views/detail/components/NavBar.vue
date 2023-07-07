@@ -28,6 +28,7 @@ export default {
   methods: {
     getTitleIndex (index) {
       this.currentIndex = index
+      this.$emit('titieClick', index)
     },
     back () {
       history.back()

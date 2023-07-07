@@ -1,4 +1,5 @@
 import { debounce } from "./utils"
+import BackTop from 'components/content/backTop'
 export const itemListenerMixin = {
   mounted () {
     // 图片加载完的事件监听
@@ -17,6 +18,7 @@ export const itemListenerMixin = {
     hello () {
       console.log('hello')
     },
+    debounce
   },
 }
 
@@ -24,6 +26,22 @@ export const helloMixin = {
   data () {
     return {
       hello1: 'hello111'
+    }
+  }
+}
+
+export const BackTopMixin = {
+  data () {
+    return {
+      showBackTop: false
+    }
+  },
+  components: {
+    BackTop
+  },
+  methods: {
+    backClick () {
+      this.$refs.scroll.scrollTo(0, 0, 300)
     }
   }
 }

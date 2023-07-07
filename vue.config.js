@@ -1,6 +1,7 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true,
+  lintOnSave: false,
   configureWebpack: {
     resolve: {
       extensions: ['.json', '.vue', '.js'],
@@ -9,7 +10,8 @@ module.exports = defineConfig({
         'common': '@/common',
         'components': '@/components',
         'network': '@/network',
-        'views': '@/views'
+        'views': '@/views',
+        'store': '@/store'
       }
     }
   }
