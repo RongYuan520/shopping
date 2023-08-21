@@ -39,6 +39,7 @@ import { getHomeList,  getHomeGoods } from 'network/home'
 import { HOMETYPES } from 'common/const'
 // import { debounce } from 'common/utils'
 import {itemListenerMixin, helloMixin} from 'common/mixn'
+import { getIndex2, isHuiwen } from 'devutils-moxiaoqian'
 export default {
   name: 'homeVue',
   components: {
@@ -78,6 +79,9 @@ export default {
     }
   },
   created () {
+    console.log('----', getIndex2, isHuiwen)
+    console.log(getIndex2([2, 2, 5], 7))
+    console.log(isHuiwen(1210))
     this.getHomeList()
     this.getHomeGoods(this.type)
   },
@@ -87,6 +91,10 @@ export default {
     this.$bus.$off('itemImgLoad', this.itemImgListener)
   },
   methods: {
+    getIndex2() {
+      console.log('getIndex2', getIndex2)
+      return getIndex2
+    },
     getHomeList() {
       getHomeList()
        .then(res => {
